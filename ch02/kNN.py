@@ -7,6 +7,7 @@ def createDataSet():
     group=array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
     labels=['A','A','B','B']
     return group,labels
+#分类器，核心函数
 def classify0(inX,dataSet,labels,k):
     #shape会获得矩阵的维数，是一个元组，比如n*m的矩阵，返回的是（n,m）
     dataSetSize=dataSet.shape[0]
@@ -32,6 +33,7 @@ def classify0(inX,dataSet,labels,k):
     #sorter()第一个参数为迭代对象，按key排序，reverse=True表示倒序排列即从大到小排列,返回的是一个列表，里面存放元组
     sortedClassCount=sorted(classCount.iteritems(),key=operator.itemgetter(1),reverse=True)
     return sortedClassCount[0][0]
+#将文件中的特征和结果都读取到矩阵中
 def file2matrix(filename):
     fr=open(filename)
     arrayOLines=fr.readlines()
@@ -48,6 +50,7 @@ def file2matrix(filename):
         classLabelVector.append(int(listFromLine[-1]))
         index+=1
     return returnMat,classLabelVector
+#归一化处理
 def autoNorm(dataSet):
     #找出当前列中的最小值
     minVals=dataSet.min(0)
@@ -58,6 +61,7 @@ def autoNorm(dataSet):
     normDataSet=dataSet-tile(minVals,(m,1))
     normDataSet=normDataSet/tile(ranges,(m,1))
     return normDataSet,ranges,minVals
+#计算分类器的错误率
 def datingClassTest():
     hoRatio=0.10
     datingDataMat,datingLabels=file2matrix('H:\pythonfornumber\ch02\datingTestSet2.txt')
@@ -70,6 +74,7 @@ def datingClassTest():
         print "the classifier came back with: %d,the real answer is: %d"%(classifierResult,datingLabels[i])
         if (classifierResult!=datingLabels[i]):errorCount+=1.0
     print "the total error rate is: %f" % (errorCount/float(numTestVecs))
+#给定某人判定是哪类
 def classifyPerson():
     resultList=['not at all','in small doses','in large doses']
     percentTats=float(raw_input("precentage of time spent playing video games"))
